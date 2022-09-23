@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { UsersThree, UserCirclePlus } from "phosphor-react";
 
 import { Container, Content } from "./styles";
 
@@ -18,9 +19,15 @@ export function Home() {
   return (
     <Container>
       <Content>
+        <UsersThree size={42} />
         <h1>Usuários cadastrados</h1>
         
-        <button>+ Adicionar usuário</button>
+        <div className="userAdd">
+          <button>
+            <UserCirclePlus size={32} />
+            Adicionar usuário
+          </button>
+        </div>
 
         <div className="userInfo">
           <p>Ednardo Gomes</p>
