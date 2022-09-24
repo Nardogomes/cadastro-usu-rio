@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
+import { format } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 
 const app = express();
 app.use(express.json());
@@ -22,8 +24,8 @@ app.get("/users/:id", async (request, response) => {
   const user = await prisma.user.findMany({
     where: {
       CPF: userId,
-    }
-  })
+    },
+  });
 
   return response.json({ user });
 });
@@ -31,7 +33,13 @@ app.get("/users/:id", async (request, response) => {
 app.post("/users", async (request, response) => {
   const body = request.body;
 
-  const dataNascimentoFormated = new Date(body.data_nascimento).toISOString();
+  const dataNascimento = new Date(body.data_nascimento);
+
+  const dataNascimentoFormated = format(dataNascimento, "dd/MM/yyyy", {
+    locale: ptBR,
+  });
+
+  console.log(dataNascimentoFormated);
 
   const user = await prisma.user.create({
     data: {
@@ -40,9 +48,9 @@ app.post("/users", async (request, response) => {
       RG: body.RG,
       data_nascimento: dataNascimentoFormated,
       nome_mae: body.nome_mae,
-      data_cadastro: body.data_cadastro
-    }
-  })
+      data_cadastro: body.data_cadastro,
+    },
+  });
 
   return response.status(201).json(user);
 });
@@ -52,9 +60,9 @@ app.delete("/users/:id", async (request, response) => {
 
   const user = await prisma.user.delete({
     where: {
-      CPF: userId
-    }
-  })
+      CPF: userId,
+    },
+  });
 
   return response.json({ user });
 });

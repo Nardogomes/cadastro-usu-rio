@@ -14,7 +14,7 @@ model User {
   CPF             String @id
   nome            String
   RG              String
-  data_nascimento DateTime
+  data_nascimento String
   nome_mae        String
   data_cadastro   DateTime @default(now())
 }
